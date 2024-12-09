@@ -57,13 +57,12 @@ app.get('/example/multiple.html', (req, res) => {
 app.use((req, res, next) => {
   // Security headers
   res.setHeader('Content-Security-Policy', 
-    "default-src 'self' https://chat-api-28qc.onrender.com https://cdn.socket.io; " +
-    "script-src 'self' 'unsafe-inline' https://chat-api-28qc.onrender.com https://cdn.socket.io; " +
-    "style-src 'self' 'unsafe-inline'; " +
-    "connect-src 'self' wss://chat-api-28qc.onrender.com https://chat-api-28qc.onrender.com"
+    "default-src * 'unsafe-inline' 'unsafe-eval'; " +
+    "script-src * 'unsafe-inline' 'unsafe-eval'; " +
+    "style-src * 'unsafe-inline'; " +
+    "connect-src * ws: wss:;"
   );
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   next();
 });
