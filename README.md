@@ -249,3 +249,11 @@ Version gratuite inclut :
 ## Licence
 
 Licence MIT - libre d'utilisation dans vos projets !
+
+## Usage Restrictions
+This repository is public for reference only. You may not:
+- Clone for commercial use
+- Modify or redistribute the code
+- Use in production without permission
+
+For licensing and usage requests, please contact: konstantine.garozashvili@laplateforme.io
