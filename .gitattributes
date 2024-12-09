@@ -1,0 +1,12 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# JS files should use LF
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# Don't modify binary files
+*.png binary
+*.jpg binary
+*.gif binary 
