@@ -110,6 +110,7 @@ app.use('/widget', express.static(path.join(__dirname, 'dist')));
 
 // Serve widget files with correct MIME type
 app.get('/widget.js', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Type', 'application/javascript');
   res.sendFile(path.join(__dirname, 'dist/widget.js'));
 });
