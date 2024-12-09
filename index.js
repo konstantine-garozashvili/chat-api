@@ -260,8 +260,8 @@ module.exports = { app, server };
 
 // Start server if not in test mode
 if (process.env.NODE_ENV !== 'test') {
-  const PORT = process.env.PORT || 3000;
-  server.listen(PORT, () => {
+  const PORT = process.env.PORT || 10000;
+  server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
     console.log('Available routes:');
     app._router.stack.forEach(function(r){
@@ -271,3 +271,8 @@ if (process.env.NODE_ENV !== 'test') {
     });
   });
 }
+
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Chat API is running' });
+});

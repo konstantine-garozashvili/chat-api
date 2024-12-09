@@ -14,7 +14,7 @@
     "test:widget": "cross-env NODE_ENV=test node tests/integration/widget-test.js",
     "widget:example": "npm run test:widget && start example/widget-test.html",
     "test-api:no-cleanup": "CLEANUP=false node scripts/test-api.js",
-    "build": "node scripts/build-widget.js",
+    "build": "npm install",
     "build:watch": "nodemon scripts/build-widget.js",
     "docker:build": "docker build -t chat-api .",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up",
