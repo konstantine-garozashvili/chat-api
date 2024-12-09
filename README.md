@@ -7,8 +7,11 @@ A simple, embeddable chat widget that you can add to any website.
 Add this code to your HTML:
 
 ```html
+<!-- Socket.IO Client (required) -->
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
 <!-- Add Chat Widget -->
-<script src="https://chat-api-2b5g.onrender.com/widget.js"></script>
+<script src="https://chat-api-28qc.onrender.com/widget.js"></script>
 <script>
     ChatWidget.init({
         apiKey: 'LaplateformeKG',
