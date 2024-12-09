@@ -21,6 +21,34 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 6
   },
+  apiKey: {
+    key: {
+      type: String,
+      unique: true
+    },
+    domains: [{
+      type: String,
+      trim: true
+    }],
+    settings: {
+      position: {
+        type: String,
+        enum: ['bottom-right', 'bottom-left', 'top-right', 'top-left'],
+        default: 'bottom-right'
+      },
+      theme: {
+        primary: {
+          type: String,
+          default: '#007bff'
+        },
+        secondary: {
+          type: String,
+          default: '#6c757d'
+        }
+      },
+      customCSS: String
+    }
+  },
   avatar: {
     type: String,
     default: ''

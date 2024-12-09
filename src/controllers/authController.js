@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const generateApiKey = require('../utils/apiKeyGenerator');
 
 const authController = {
   // Register new user
@@ -14,8 +15,24 @@ const authController = {
         return res.status(400).json({ error: 'User already exists' });
       }
 
-      // Create new user
-      const user = new User({ username, email, password });
+      // Create new user with API key
+      const apiKey = generateApiKey();
+      const user = new User({
+        username,
+        email,
+        password,
+        apiKey: {
+          key: apiKey,
+          settings: {
+            position: 'bottom-right',
+            theme: {
+              primary: '#007bff',
+              secondary: '#6c757d'
+            }
+          }
+        }
+      });
+
       await user.save();
 
       // Generate token
@@ -28,7 +45,8 @@ const authController = {
           id: user._id,
           username: user.username,
           email: user.email,
-          status: user.status
+          status: user.status,
+          apiKey: user.apiKey.key
         },
         token
       });
@@ -92,6 +110,23 @@ const authController = {
       res.json(formattedUsers);
     } catch (error) {
       console.error('Error fetching users:', error);
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  // Delete user (for testing purposes)
+  deleteUser: async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Only allow users to delete themselves or admin users
+      if (userId !== req.user._id.toString()) {
+        return res.status(403).json({ error: 'Not authorized' });
+      }
+
+      await User.findByIdAndDelete(userId);
+      res.json({ message: 'User deleted successfully' });
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }

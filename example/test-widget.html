@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Widget Test</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://localhost:3000; script-src 'self' 'unsafe-inline' http://localhost:3000; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:3000 http://localhost:3000">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        code {
+            background: #e0e0e0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Widget Test</h1>
+    <div class="info">
+        <p>Your chat widget should appear in the bottom-right corner.</p>
+        <p>API Key: <code id="apiKey">test-api-key</code></p>
+        <div id="status"></div>
+    </div>
+
+    <!-- Socket.IO client -->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <!-- Chat Widget Integration -->
+    <script src="/widget.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                window.chatWidget = ChatWidget.init({
+                    apiKey: 'test-api-key',
+                    position: 'bottom-right',
+                    theme: {
+                        primary: '#007bff',
+                        secondary: '#6c757d'
+                    },
+                    debug: true
+                });
+                console.log('Chat widget initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize chat widget:', error);
+                document.getElementById('status').innerHTML = `
+                    <p style="color: red;">Error: ${error.message}</p>
+                `;
+            }
+        });
+
+        // Add error handler for uncaught errors
+        window.onerror = function(msg, url, line, col, error) {
+            console.error('Global error:', { msg, url, line, col, error });
+            document.getElementById('status').innerHTML = `
+                <p style="color: red;">Error: ${msg}</p>
+                <p>Line: ${line}, Column: ${col}</p>
+            `;
+            return false;
+        };
+    </script>
+</body>
+</html> 

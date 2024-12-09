@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat API Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Chat API Dashboard</h1>
+    
+    <!-- API Key Section -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+      <h2 class="text-xl font-semibold mb-4">Your API Key</h2>
+      <div class="flex items-center space-x-4">
+        <input type="text" id="apiKey" class="flex-1 p-2 border rounded" readonly>
+        <button onclick="copyApiKey()" class="px-4 py-2 bg-blue-500 text-white rounded">Copy</button>
+      </div>
+    </div>
+
+    <!-- Widget Settings -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Widget Settings</h2>
+      <form id="settingsForm" class="space-y-4">
+        <!-- Position -->
+        <div>
+          <label class="block mb-2">Position</label>
+          <select name="position" class="w-full p-2 border rounded">
+            <option value="bottom-right">Bottom Right</option>
+            <option value="bottom-left">Bottom Left</option>
+            <option value="top-right">Top Right</option>
+            <option value="top-left">Top Left</option>
+          </select>
+        </div>
+
+        <!-- Colors -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-2">Primary Color</label>
+            <input type="color" name="primaryColor" class="w-full">
+          </div>
+          <div>
+            <label class="block mb-2">Secondary Color</label>
+            <input type="color" name="secondaryColor" class="w-full">
+          </div>
+        </div>
+
+        <!-- Custom CSS -->
+        <div>
+          <label class="block mb-2">Custom CSS</label>
+          <textarea name="customCSS" class="w-full h-32 p-2 border rounded"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-2 bg-blue-500 text-white rounded">Save Settings</button>
+      </form>
+    </div>
+
+    <!-- Analytics Section -->
+    <div class="bg-white p-6 rounded-lg shadow-md mt-8">
+      <h2 class="text-xl font-semibold mb-4">Analytics</h2>
+      <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="p-4 bg-blue-50 rounded">
+          <h3 class="font-medium">Total Conversations</h3>
+          <p id="totalConversations" class="text-2xl font-bold">0</p>
+        </div>
+        <div class="p-4 bg-green-50 rounded">
+          <h3 class="font-medium">Active Users</h3>
+          <p id="activeUsers" class="text-2xl font-bold">0</p>
+        </div>
+        <div class="p-4 bg-purple-50 rounded">
+          <h3 class="font-medium">Messages Sent</h3>
+          <p id="messagesSent" class="text-2xl font-bold">0</p>
+        </div>
+      </div>
+      <div id="analyticsChart"></div>
+    </div>
+
+    <!-- Domain Management -->
+    <div class="bg-white p-6 rounded-lg shadow-md mt-8">
+      <h2 class="text-xl font-semibold mb-4">Authorized Domains</h2>
+      <div class="space-y-4">
+        <div class="flex gap-4">
+          <input type="text" id="newDomain" placeholder="Enter domain (e.g., example.com)" 
+            class="flex-1 p-2 border rounded">
+          <button onclick="dashboard.addDomain()" 
+            class="px-4 py-2 bg-green-500 text-white rounded">Add Domain</button>
+        </div>
+        <div id="domainList" class="space-y-2">
+          <!-- Domains will be listed here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html> 

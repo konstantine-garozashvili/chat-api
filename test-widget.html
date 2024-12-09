@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Widget Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        code {
+            background: #e0e0e0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Widget Test</h1>
+    <div class="info">
+        <p>Your chat widget should appear in the bottom-right corner.</p>
+        <p>API Key: <code id="apiKey">test-api-key</code></p>
+    </div>
+
+    <!-- Chat Widget Integration -->
+    <script src="/widget.js"></script>
+    <script>
+        // Initialize widget after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            ChatWidget.init({
+                apiKey: 'test-api-key',
+                position: 'bottom-right',
+                theme: {
+                    primary: '#007bff',
+                    secondary: '#6c757d'
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
