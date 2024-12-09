@@ -153,48 +153,25 @@ io.on('connection', (socket) => {
   // Handle chat messages
   socket.on('message', async (data) => {
     try {
-      const { text, apiKey } = data;
+      const { text, apiKey, userData } = data;
       
-      // Handle API keys
-      let user;
-      if (apiKey === process.env.DEFAULT_API_KEY) {
-        user = {
-          _id: 'default-user-id',
-          username: 'Guest User'
-        };
-      } else {
-        // Find real user by API key
-        user = await User.findOne({ apiKey });
+      // Validate API key
+      if (apiKey !== process.env.DEFAULT_API_KEY) {
+        const user = await User.findOne({ apiKey });
+        if (!user) {
+          socket.emit('error', { message: 'Invalid API key' });
+          return;
+        }
       }
       
-      if (!user) {
-        socket.emit('error', { message: 'Invalid API key' });
-        return;
-      }
-      
-      // Create and save message
-      let message;
-      if (apiKey !== 'test-api-key') {
-        message = new Message({
-          sender: user._id,
-          text,
-          type: 'chat'
-        });
-        await message.save();
-      } else {
-        message = {
-          _id: `test-msg-${Date.now()}`,
-          text,
-          createdAt: new Date()
-        };
-      }
-      
-      // Broadcast message to all connected clients
+      // Broadcast message with user data
       socket.broadcast.emit('message', {
-        from: user.username,
+        from: userData.username || 'Guest',
         text,
-        timestamp: message.createdAt
+        timestamp: new Date(),
+        userData // Include any custom user data
       });
+
     } catch (error) {
       console.error('Message handling error:', error);
       socket.emit('error', { message: 'Failed to send message' });

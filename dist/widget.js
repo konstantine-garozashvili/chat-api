@@ -1,10 +1,17 @@
 (function(window) {
     const ChatWidget = {
         init: function(config) {
-            this.config = config;
-            console.log('Chat Widget initialized with config:', config);
+            this.config = {
+                apiKey: config.apiKey,
+                position: config.position || 'bottom-right',
+                theme: config.theme || {},
+                backendUrl: config.backendUrl,
+                onMessage: config.onMessage,
+                userData: config.userData || {}
+            };
             this.isOpen = false;
             this.createElements();
+            this.initializeSocket();
         },
 
         createElements: function() {
@@ -86,23 +93,48 @@
                 border-top: 1px solid #eee;
                 display: flex;
             `;
-            inputArea.innerHTML = `
-                <input type="text" placeholder="Type a message..." style="
-                    flex-grow: 1;
-                    padding: 8px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    margin-right: 8px;
-                ">
-                <button style="
-                    background-color: ${this.config.theme?.primary || '#007bff'};
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    cursor: pointer;
-                ">Send</button>
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Type a message...';
+            input.style.cssText = `
+                flex-grow: 1;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin-right: 8px;
             `;
+
+            const sendButton = document.createElement('button');
+            sendButton.innerHTML = 'Send';
+            sendButton.style.cssText = `
+                background-color: ${this.config.theme?.primary || '#007bff'};
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                cursor: pointer;
+            `;
+
+            // Add send functionality
+            const sendMessage = () => {
+                const text = input.value.trim();
+                if (text) {
+                    this.sendMessage(text);
+                    input.value = '';
+                }
+            };
+
+            // Add event listeners
+            sendButton.addEventListener('click', sendMessage);
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            inputArea.appendChild(input);
+            inputArea.appendChild(sendButton);
 
             // Add click handlers
             button.onclick = () => this.toggleChat(chatWindow, button);
@@ -122,12 +154,55 @@
             this.chatWindow = chatWindow;
             this.messagesArea = messagesArea;
             this.button = button;
+            this.input = input;
         },
 
         toggleChat: function(chatWindow, button) {
             this.isOpen = !this.isOpen;
             chatWindow.style.display = this.isOpen ? 'flex' : 'none';
             button.style.transform = this.isOpen ? 'scale(0.8)' : 'scale(1)';
+        },
+
+        initializeSocket: function() {
+            const socket = io(this.config.backendUrl || 'https://chat-api-28qc.onrender.com', {
+                auth: {
+                    apiKey: this.config.apiKey,
+                    userData: this.config.userData
+                }
+            });
+
+            socket.on('connect', () => {
+                console.log('Connected to chat server');
+            });
+
+            socket.on('message', (data) => {
+                this.addMessage(data.from, data.text);
+                if (this.config.onMessage) {
+                    this.config.onMessage(data);
+                }
+            });
+
+            this.socket = socket;
+        },
+
+        sendMessage: function(text) {
+            if (!text.trim()) return;
+
+            this.socket.emit('message', {
+                text,
+                apiKey: this.config.apiKey,
+                userData: this.config.userData
+            });
+
+            this.addMessage('You', text);
+        },
+
+        addMessage: function(sender, text) {
+            const message = document.createElement('div');
+            message.className = `chat-message ${sender === 'You' ? 'sent' : 'received'}`;
+            message.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            this.messagesArea.appendChild(message);
+            this.messagesArea.scrollTop = this.messagesArea.scrollHeight;
         }
     };
 
