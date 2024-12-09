@@ -41,15 +41,27 @@ app.use(cors());
 app.use(express.json());
 
 // Serve example directory for testing
-app.use('/example', express.static(path.join(__dirname, 'example')));
-app.use('/test-widget.html', (req, res) => {
+app.get('/example/test-widget.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'example/test-widget.html'));
+});
+
+app.get('/example/styled.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'example/styled.html'));
+});
+
+app.get('/example/multiple.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'example/multiple.html'));
 });
 
 // Add security middleware
 app.use((req, res, next) => {
   // Security headers
-  res.setHeader('Content-Security-Policy', "default-src 'self' http://localhost:3000; script-src 'self' 'unsafe-inline' http://localhost:3000; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:3000 http://localhost:3000");
+  res.setHeader('Content-Security-Policy', 
+    "default-src 'self' https://chat-api-28qc.onrender.com https://cdn.socket.io; " +
+    "script-src 'self' 'unsafe-inline' https://chat-api-28qc.onrender.com https://cdn.socket.io; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "connect-src 'self' wss://chat-api-28qc.onrender.com https://chat-api-28qc.onrender.com"
+  );
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');

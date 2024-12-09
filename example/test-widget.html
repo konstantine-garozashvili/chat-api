@@ -3,7 +3,7 @@
 <head>
     <title>Chat Widget Test</title>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://localhost:3000; script-src 'self' 'unsafe-inline' http://localhost:3000; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:3000 http://localhost:3000">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://chat-api-28qc.onrender.com https://cdn.socket.io; script-src 'self' 'unsafe-inline' https://chat-api-28qc.onrender.com https://cdn.socket.io; style-src 'self' 'unsafe-inline'; connect-src 'self' wss://chat-api-28qc.onrender.com https://chat-api-28qc.onrender.com">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,24 +28,28 @@
     <h1>Chat Widget Test</h1>
     <div class="info">
         <p>Your chat widget should appear in the bottom-right corner.</p>
-        <p>API Key: <code id="apiKey">test-api-key</code></p>
+        <p>API Key: <code id="apiKey">LaplateformeKG</code></p>
         <div id="status"></div>
     </div>
 
     <!-- Socket.IO client -->
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     
     <!-- Chat Widget Integration -->
-    <script src="https://chat-api-2b5g.onrender.com/widget.js"></script>
+    <script src="https://chat-api-28qc.onrender.com/widget.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
                 window.chatWidget = ChatWidget.init({
-                    apiKey: 'test-api-key',
+                    apiKey: 'LaplateformeKG',
                     position: 'bottom-right',
                     theme: {
                         primary: '#007bff',
                         secondary: '#6c757d'
+                    },
+                    userData: {
+                        username: 'Test User',
+                        userId: 'test-123'
                     },
                     debug: true
                 });
@@ -57,16 +61,6 @@
                 `;
             }
         });
-
-        // Add error handler for uncaught errors
-        window.onerror = function(msg, url, line, col, error) {
-            console.error('Global error:', { msg, url, line, col, error });
-            document.getElementById('status').innerHTML = `
-                <p style="color: red;">Error: ${msg}</p>
-                <p>Line: ${line}, Column: ${col}</p>
-            `;
-            return false;
-        };
     </script>
 </body>
 </html> 
