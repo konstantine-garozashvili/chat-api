@@ -20,6 +20,7 @@ pids/
 
 # Testing
 coverage/
+.nyc_output/
 
 # IDE - VSCode
 .vscode/

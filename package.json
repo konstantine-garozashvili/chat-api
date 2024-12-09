@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest --runInBand",
+    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit",
     "test:coverage": "jest --coverage",
     "generate-token": "node scripts/generate-token.js",
     "test-auth": "node scripts/test-auth.js",

@@ -9,33 +9,39 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    env:
+      NODE_ENV: test
+      JWT_SECRET: test-secret-key-123
+      DEFAULT_API_KEY: LaplateformeKG
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
-    services:
-      mongodb:
-        image: mongo
-        ports:
-          - 27017:27017
+    strategy:
+      matrix:
+        node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
       with:
-        node-version: '18'
-    - run: npm ci
-    - run: npm test
-      env:
-        MONGODB_URI: mongodb://localhost:27017/test
-        JWT_SECRET: test_secret
-
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm test
+      
   deploy:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-
+    
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+    
     - name: Deploy to production
-      uses: digitalocean/action-doctl@v2
-      with:
-        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} 
+      run: echo "Add your deployment steps here"
+      # Add actual deployment steps when ready
