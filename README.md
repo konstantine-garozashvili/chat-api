@@ -8,7 +8,7 @@ Add this code to your HTML:
 
 ```html
 <!-- Add Chat Widget -->
-<script src="https://your-api-url.com/widget.js"></script>
+<script src="https://chat-api-2b5g.onrender.com/widget.js"></script>
 <script>
     ChatWidget.init({
         apiKey: 'LaplateformeKG',
