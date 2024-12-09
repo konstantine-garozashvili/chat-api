@@ -1,5 +1,9 @@
 # Chat Widget API
 
+*Read this in other languages: [English](#english), [Français](#français)*
+
+# English
+
 A simple, embeddable real-time chat widget that you can easily integrate into any website.
 
 ## Quick Start
@@ -17,18 +21,8 @@ Add this code to your HTML:
         apiKey: 'LaplateformeKG',
         position: 'bottom-right',
         userData: {
-            username: 'John Doe',  // User's name in chat
-            userId: '123',         // Your system's user ID
-            company: 'ACME Inc'    // Any custom data
-        },
-        theme: {
-            primary: '#007bff',
-            secondary: '#6c757d'
-        },
-        onMessage: function(data) {
-            // Handle received messages
-            console.log('New message:', data);
-            // Save to your database, update UI, etc.
+            username: 'John Doe',
+            userId: '123'
         }
     });
 </script>
@@ -72,11 +66,7 @@ Add this code to your HTML:
 {
     username: 'John Doe',     // User's display name
     userId: '123',            // Your system's user ID
-    company: 'ACME Inc',      // Company name
-    // Add any custom fields
-    role: 'admin',
-    department: 'sales',
-    // ...
+    company: 'ACME Inc'       // Company name
 }
 ```
 
@@ -177,3 +167,85 @@ Check out our example implementations:
 ## License
 
 MIT License - feel free to use in your projects!
+
+---
+
+# Français
+
+Un widget de chat en temps réel simple et intégrable que vous pouvez facilement ajouter à n'importe quel site web.
+
+## Démarrage Rapide
+
+Ajoutez ce code à votre HTML :
+
+```html
+<!-- Client Socket.IO (requis) -->
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+<!-- Ajouter le Widget de Chat -->
+<script src="https://chat-api-28qc.onrender.com/widget.js"></script>
+<script>
+    ChatWidget.init({
+        apiKey: 'LaplateformeKG',
+        position: 'bottom-right', // ou 'bottom-left'
+        userData: {
+            username: 'John Doe',
+            userId: '123'
+        }
+    });
+</script>
+```
+
+## Fonctionnalités
+
+- Chat en temps réel
+- Thème personnalisable
+- Design responsive
+- Support de données personnalisées
+- Intégration facile
+- Support multi-domaines
+- Communication sécurisée
+
+## Options de Configuration
+
+| Option | Type | Description | Défaut |
+|--------|------|-------------|---------|
+| apiKey | string | Clé d'API | 'LaplateformeKG' |
+| position | string | Position du widget | 'bottom-right' |
+| theme | object | Couleurs personnalisées | Voir ci-dessous |
+| userData | object | Données utilisateur | {} |
+
+### Options de Thème
+```javascript
+{
+    primary: '#007bff',   // Couleur principale
+    secondary: '#6c757d'  // Couleur secondaire
+}
+```
+
+### Options userData
+```javascript
+{
+    username: 'John Doe',     // Nom d'affichage
+    userId: '123',            // ID utilisateur
+    company: 'ACME Inc'       // Nom de l'entreprise
+}
+```
+
+## Limitations
+
+Version gratuite inclut :
+- Jusqu'à 100 connexions simultanées
+- 512MB de stockage (MongoDB Atlas)
+- Ressources partagées
+- Fonctionnalités de base
+
+## Support
+
+- [Ouvrir un ticket](https://github.com/yourusername/chat-api/issues)
+- [Documentation](https://chat-api-28qc.onrender.com/docs)
+- [Référence API](https://chat-api-28qc.onrender.com/api-docs)
+
+## Licence
+
+Licence MIT - libre d'utilisation dans vos projets !
